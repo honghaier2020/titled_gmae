@@ -27,7 +27,7 @@ bool HelloWorld::init()
         return false;
     }
     
-	std::string __file = "01.tmx";
+	std::string __file = "02.tmx";
 	auto __str = String::createWithContentsOfFile (FileUtils::getInstance()->fullPathForFilename(__file.c_str()).c_str());
 	tile_map_ = TMXTiledMap::createWithXML(__str->getCString(),"");
 	background_ = tile_map_->layerNamed("Background");
@@ -45,6 +45,11 @@ bool HelloWorld::init()
 	player_->setScale(0.5);     
 	addChild(player_); 
 	setViewPointCenter(player_->getPosition()); 
+
+	_blockage = tile_map_->layerNamed("Blockage01");
+	_blockage->setVisible(false);
+
+	_foreground = tile_map_->getLayer("Foreground01");
 
 	auto listener = EventListenerTouchOneByOne::create();  
 	listener->onTouchBegan = [&](Touch *touch, Event *unused_event)->bool {return true;};  
@@ -122,5 +127,40 @@ void HelloWorld::onTouchEnded( cocos2d::Touch *touch, cocos2d::Event *unused_eve
 
 void HelloWorld::setPlayerPosition( cocos2d::Point position )
 {
-	player_->setPosition(position); 
+	if(0)
+	{
+		player_->setPosition(position); 
+	}
+	else
+	{
+		Point tileCoord = this->tileCoordForPosition(position); 
+		int tileGid = _blockage->getTileGIDAt(tileCoord); 
+		if (tileGid) { 
+			auto properties = tile_map_->getPropertiesForGID(tileGid).asValueMap(); 
+			if (!properties.empty()) 
+			{ 
+				auto collision = properties["Blockage"].asString();
+				if ("true" == collision) 
+				{ 
+					return; 
+				} 
+				auto collectable = properties["Collectable"].asString(); 
+				if ("true" == collectable)
+				{    
+					_blockage->removeTileAt(tileCoord); 
+					_foreground->removeTileAt(tileCoord);     
+				}
+			} 
+
+
+		} 
+		player_->setPosition(position); 
+	}
+}
+
+cocos2d::Point HelloWorld::tileCoordForPosition( cocos2d::Point position )
+{
+	int x = position.x / tile_map_->getTileSize().width;  
+	int y = ((tile_map_->getMapSize().height * tile_map_->getTileSize().height) - position.y) / tile_map_->getTileSize().height;  
+	return Point(x, y); 
 }

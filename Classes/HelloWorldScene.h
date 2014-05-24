@@ -21,13 +21,22 @@ public:
 	void setViewPointCenter(cocos2d::Point __position); 
 
 	void onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *unused_event); 
+
 	void setPlayerPosition(cocos2d::Point position); 
+
+	cocos2d::Point tileCoordForPosition(cocos2d::Point position); 
 private:
 	cocos2d::TMXTiledMap* tile_map_;
 
 	cocos2d::TMXLayer* background_;
 
 	cocos2d::Sprite* player_;
+
+	cocos2d::TMXLayer*	_blockage;
+
+	cocos2d::TMXLayer *_foreground;
+
+
 
 };
 

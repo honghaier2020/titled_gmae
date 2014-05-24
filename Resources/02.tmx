@@ -21,7 +21,7 @@
  </tileset>
  <layer name="BackGround" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eJzt1fVv20AYxnEnpRXHzMzMzNwxt2NmZmZmZuZ2vHa89ef9PR100O5r1ZZOpyT2LE11tfeRPro38d3l3jhgGBKJRCKRSCQSiUQikUgkEolEIimOGSzEfybX8gVf8Q3fkWfWAWrk4Ueg6M/q1MdP/MJv5KMABufORwGMIA+DRX9Wpz6CnDUK0YhBLOIC/rofaQ7MPuI5YwISkYRkpPjgfjidXe/Dpr//udp1v94LvQ/9/S9Ofbhh72W1aEQhGjGIRRxKIB4JSEQSkpGCkihl1eGoc+za7Z56rY9DNKVRBmVRDuVRARVRCZVRBVVRDdVRAzVRK0IP6hy1drNnqFof9T5qow7qoh7qowEaohEaowmaohmaowVaopWH2uue+qj30Rpt0Bbt0B4d0BGd0Bld0BXd0B090BO9PNRe99RHvY/e6IO+6If+GICBGGQUfo/MeUORimEYjhEY6aFON5y/u6HW6qPexyiMxhiMxTiMxwRMxCRrb/P1J2MKpmIaplt1qsVN7aYPN79P+nMzMBOzMBtzMBfzMB8LsBCLsBhLsBTLsFw5nyotzJx0RaSzqmvdXDf7WIGVWIXVWIO1WIf12ICN2ITN2IKt2Ibt2vk/K32oc+zXV3uJ1EeoteGu2/9HO7ATu7Abe7AX+7AfB3AQh3AYR3AUx3DcKPychRJujps+1LVO1+0+TuAkTuE0zuAszuE8LuAiLuEyruAqruG6j9zATdzCbdzBXdzDfTzAQ2QgE4/wGE/w9B/Jwae/9AzP8QIvkYVsvMJrvMFbvMN7fMBHa22Oj/r4A0h1jn4=
+   eJztzsOWXVEUQNGKbdu2nYpt27Zt27ZtO/m0zB843Xc7e40x+ysvL4qiKIqiKIqiKIqiKIqiKIqiKIqiKMqiAhSkEIUpQlGKUZwSlKQUpSlDWcpRPoPfVBWoSCUqU4WqVKM6NahJLWpTh7rUo37ud5M1oCGNaEwTmtKM5rSgJa1oTRva0o72Gfym6kBHOtGZLnSlG93pQU960Zs+9CWffrnfTdafAQxkEIMZwlCGMZwRjGQUoxnDWMZl8JtqPBOYyCQmM4WpTGM6M5jJLGYzh7nMy/1usvksYCGLWMwSlrKM5axgJatYzRrWsi6D31Tr2cBGNrGZLWxlG9vZwU52sZs97GVf7neT7ecABznEYY5wlGMc5wQnOcVpznCWcxn8pjrPBS5yictc4SrXuM4NbnKL29zhLvdyv5vsPg94yCMe84SnPOM5L3jJK17zhre8y+A31Xs+8JFPfOYLX/nGd37wk1/85g9/+Zf73WT/AUoJSGE=
   </data>
  </layer>
  <objectgroup name="Object-Player" width="50" height="50">
@@ -29,7 +29,7 @@
  </objectgroup>
  <layer name="Blockage01" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eJztlTlLxEAARmf2X3uBF3iB14+QtYigNmqja6FWikfhUXgUgmixaOFRqC+4gRBikslulln9HjzIMWG+j2QyxgghhBBCCCGEEEIIIYToZbatMTvYwD7sxwEcxCHbmTlubHVG7HG8jwc4jCM4imM4XmGP5Zxz1x4Bx4d4hBM4iVM4jTN4zJgTPMWzWLZnfGmjR5bNEj3izHJ9DudxARfxnOsXeIlXDu8giM2RnPsV3/AdPwpma5frMAfe4l3O2FUyrOF6Iksy5yd+hWNqxthad3rcZ+RLssH9TdzCeuubT+uRt14eOtDlEZ8y8v3GSiJ7SN2WW79Nxx5pmV3Wb1HK/oOKUjZz0eeW7I+u/yUfCLqco5Fj3jO+oB5+9fgv7Lb8C6R18bFfkTUR4WP+CJcePuPaQ++jOoruGb6Ttw/2Sq9vsvLqGw==
+   eJzt1TEKwCAQRUHvf6vkZGm0C6wWkp9kBrYUfIhsawAAAAAAAAA84SimOpNCR1bHX5x9vuCuJbFv5k8MifcfVjqSrXZ4j31md0a6ag++pesCcB42Ug==
   </data>
  </layer>
  <layer name="Foreground01" width="50" height="50">
