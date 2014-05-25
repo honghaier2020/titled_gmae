@@ -1,6 +1,10 @@
 #include "HelloWorldScene.h"
-
+#include "HelloWorldHud.h"
+#include "SimpleAudioEngine.h"
 USING_NS_CC;
+using namespace CocosDenshion;
+
+HelloWorldHud *HelloWorld::_hud = NULL;
 
 Scene* HelloWorld::createScene()
 {
@@ -12,6 +16,9 @@ Scene* HelloWorld::createScene()
 
     // add layer as a child to scene
     scene->addChild(layer);
+
+	auto hud = HelloWorldHud::create(); 
+	_hud = hud;   scene->addChild(hud);
 
     // return the scene
     return scene;
@@ -26,7 +33,7 @@ bool HelloWorld::init()
     {
         return false;
     }
-    
+    _numCollected = 0;
 	std::string __file = "02.tmx";
 	auto __str = String::createWithContentsOfFile (FileUtils::getInstance()->fullPathForFilename(__file.c_str()).c_str());
 	tile_map_ = TMXTiledMap::createWithXML(__str->getCString(),"");
@@ -46,6 +53,17 @@ bool HelloWorld::init()
 	addChild(player_); 
 	setViewPointCenter(player_->getPosition()); 
 
+	for (auto& eSpawnPoint: __objects->getObjects())
+	{        
+		ValueMap& dict = eSpawnPoint.asValueMap();         
+		if(dict["Enemy"].asInt() == 1)
+		{            
+			__x = dict["x"].asInt();            
+			__y = dict["y"].asInt();            
+			this->addEnemyAtPos(Point(__x, __y));         
+		}     
+	}
+
 	_blockage = tile_map_->layerNamed("Blockage01");
 	_blockage->setVisible(false);
 
@@ -55,6 +73,14 @@ bool HelloWorld::init()
 	listener->onTouchBegan = [&](Touch *touch, Event *unused_event)->bool {return true;};  
 	listener->onTouchEnded = CC_CALLBACK_2(HelloWorld::onTouchEnded, this);  
 	this->_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this); 
+
+	SimpleAudioEngine::getInstance()->preloadEffect("error.mp3"); 
+	SimpleAudioEngine::getInstance()->preloadEffect("item.mp3"); 
+	SimpleAudioEngine::getInstance()->preloadEffect("step.mp3"); 
+
+	SimpleAudioEngine::getInstance()->preloadEffect("wade.mp3"); 
+	SimpleAudioEngine::getInstance()->playBackgroundMusic("background.mp3"); 
+	SimpleAudioEngine::getInstance()->setBackgroundMusicVolume(0.1); 
     return true;
 }
 
@@ -142,6 +168,7 @@ void HelloWorld::setPlayerPosition( cocos2d::Point position )
 				auto collision = properties["Blockage"].asString();
 				if ("true" == collision) 
 				{ 
+					SimpleAudioEngine::getInstance()->playEffect("error.mp3"); 
 					return; 
 				} 
 				auto collectable = properties["Collectable"].asString(); 
@@ -149,11 +176,14 @@ void HelloWorld::setPlayerPosition( cocos2d::Point position )
 				{    
 					_blockage->removeTileAt(tileCoord); 
 					_foreground->removeTileAt(tileCoord);     
+					this->_numCollected++; 
+					this->_hud->numCollectedChanged(_numCollected);
+					SimpleAudioEngine::getInstance()->playEffect("item.mp3");
 				}
 			} 
-
-
 		} 
+		SimpleAudioEngine::getInstance()->playEffect("step.mp3"); 
+
 		player_->setPosition(position); 
 	}
 }
@@ -163,4 +193,46 @@ cocos2d::Point HelloWorld::tileCoordForPosition( cocos2d::Point position )
 	int x = position.x / tile_map_->getTileSize().width;  
 	int y = ((tile_map_->getMapSize().height * tile_map_->getTileSize().height) - position.y) / tile_map_->getTileSize().height;  
 	return Point(x, y); 
+}
+
+void HelloWorld::addEnemyAtPos( Point pos )
+{
+	 auto enemy = Sprite::create("030.png");     
+	 enemy->setPosition(pos);     
+	 enemy->setScale(0.5);       
+	 this->animateEnemy(enemy);     
+	 this->addChild(enemy);       
+	 _enemies.push_back(enemy); 
+}
+
+void HelloWorld::animateEnemy( Sprite *enemy )
+{
+	auto actionTo1 = RotateTo::create(0, 0, 180);     
+	auto actionTo2 = RotateTo::create(0, 0, 0);     
+	auto diff = ccpSub(player_->getPosition(), enemy->getPosition());      
+	if (diff.x < 0) 
+	{         
+		enemy->runAction(actionTo2);     
+	}     
+	if (diff.x > 0)
+	{        
+		enemy->runAction(actionTo1);    
+	}
+	float actualDuration = 0.3f; 
+	auto position = (player_->getPosition() - enemy->getPosition()).normalize()*10;     
+	auto actionMove = MoveBy::create(actualDuration, position);     
+	auto actionMoveDone = CallFuncN::create(CC_CALLBACK_1(HelloWorld::enemyMoveFinished, this));     
+	enemy->runAction(Sequence::create(actionMove, actionMoveDone, NULL)); 
+}
+
+void HelloWorld::enemyMoveFinished( Ref *pSender )
+{
+	 Sprite *enemy = (Sprite *)pSender;      
+	 this->animateEnemy(enemy); 
+}
+
+void HelloWorld::projectileMoveFinished( cocos2d::Ref *pSender )
+{
+	Sprite *sprite = (Sprite *)pSender;     
+	this->removeChild(sprite); 
 }

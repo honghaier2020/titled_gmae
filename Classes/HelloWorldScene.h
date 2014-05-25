@@ -1,7 +1,8 @@
 #ifndef __HELLOWORLD_SCENE_H__
 #define __HELLOWORLD_SCENE_H__
-
+#include <vector>
 #include "cocos2d.h"
+class HelloWorldHud;
 
 class HelloWorld : public cocos2d::Layer
 {
@@ -25,6 +26,15 @@ public:
 	void setPlayerPosition(cocos2d::Point position); 
 
 	cocos2d::Point tileCoordForPosition(cocos2d::Point position); 
+
+	void addEnemyAtPos(cocos2d::Point pos);
+
+	void animateEnemy(cocos2d::Sprite *enemy);
+
+	void enemyMoveFinished(cocos2d::Ref *pSender) ;
+
+	void projectileMoveFinished(cocos2d::Ref *pSender);
+
 private:
 	cocos2d::TMXTiledMap* tile_map_;
 
@@ -36,7 +46,10 @@ private:
 
 	cocos2d::TMXLayer *_foreground;
 
+	int _numCollected; 
+	static HelloWorldHud *_hud;
 
+	std::vector<cocos2d::Sprite*>	_enemies;
 
 };
 
